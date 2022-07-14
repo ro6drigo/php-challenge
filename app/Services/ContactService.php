@@ -5,12 +5,27 @@ namespace App\Services;
 use App\Contact;
 use App\Interfaces\ContactServiceInterface;
 
+use Exception;
+
 class ContactService implements ContactServiceInterface
 {
-	public static function findByName(): Contact
+	const CONTACTS = [
+		[
+			'name' => 'Rodrigo',
+			'phone' => '123 456 789',
+		],
+	];
+
+	public static function findByName(string $name): Contact
 	{
 		// queries to the db
-		return new Contact();
+		$key = array_search($name, array_column(self::CONTACTS, 'name'));
+
+		if ($key === false) {
+			throw new Exception('Contact not exists');
+		}
+
+		return new Contact(self::CONTACTS[$key]['name'], self::CONTACTS[$key]['phone']);
 	}
 
 	public static function validateNumber(string $number): bool

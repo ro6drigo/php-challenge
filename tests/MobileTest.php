@@ -9,6 +9,8 @@ use App\Mobile;
 use App\Carriers\FirstCarrier;
 use App\Interfaces\CarrierInterface;
 
+use Exception;
+
 class MobileTest extends TestCase
 {
 	private CarrierInterface $provider;
@@ -34,5 +36,13 @@ class MobileTest extends TestCase
 		$this->provider->expects($this->once())->method('makeCall')->willReturn(new Call());
 
 		$this->assertInstanceOf(Call::class, $this->mobile->makeCallByName('Rodrigo'));
+	}
+
+	/** @test */
+	public function it_throw_exception_when_contact_not_found()
+	{
+		$this->expectException(Exception::class);
+
+		$this->mobile->makeCallByName('Victoria');
 	}
 }

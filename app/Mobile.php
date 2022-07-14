@@ -5,21 +5,18 @@ namespace App;
 use App\Interfaces\CarrierInterface;
 use App\Services\ContactService;
 
-
 class Mobile
 {
-
 	protected $provider;
-	
+
 	function __construct(CarrierInterface $provider)
 	{
 		$this->provider = $provider;
 	}
 
-
-	public function makeCallByName($name = '')
+	public function makeCallByName(string $name = '')
 	{
-		if( empty($name) ) return;
+		if (empty($name)) return;
 
 		$contact = ContactService::findByName($name);
 
@@ -27,6 +24,4 @@ class Mobile
 
 		return $this->provider->makeCall();
 	}
-
-
 }

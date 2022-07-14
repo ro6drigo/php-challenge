@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 use App\Call;
 use App\Mobile;
+use App\Sms;
+
 use App\Carriers\FirstCarrier;
 use App\Interfaces\CarrierInterface;
 
@@ -44,5 +46,24 @@ class MobileTest extends TestCase
 		$this->expectException(Exception::class);
 
 		$this->mobile->makeCallByName('Victoria');
+	}
+
+	/** @test */
+	public function test_send_sms_with_valid_phone()
+	{
+		$phone = '123 456 789';
+		$body = 'body';
+
+		$this->provider->expects($this->once())->method('sendSms')->willReturn(new Sms($phone, $body));
+
+		$this->assertInstanceOf(Sms::class, $this->mobile->sendSms($phone, $body));
+	}
+
+	/** @test */
+	public function test_send_sms_with_invalid_phone()
+	{
+		$this->expectException(Exception::class);
+
+		$this->mobile->sendSms('invalid phone', 'body');
 	}
 }

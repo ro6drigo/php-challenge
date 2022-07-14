@@ -2,9 +2,11 @@
 
 namespace App\Carriers;
 
+use App\Interfaces\CarrierInterface;
+
 use App\Call;
 use App\Contact;
-use App\Interfaces\CarrierInterface;
+use App\Sms;
 
 class FirstCarrier implements CarrierInterface
 {
@@ -16,5 +18,10 @@ class FirstCarrier implements CarrierInterface
     public function makeCall(): Call
     {
         return new Call();
+    }
+
+    public function sendSms(string $number, string $body): Sms
+    {
+        return new Sms($number, $body);
     }
 }

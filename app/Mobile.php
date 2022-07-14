@@ -5,6 +5,8 @@ namespace App;
 use App\Interfaces\CarrierInterface;
 use App\Services\ContactService;
 
+use Exception;
+
 class Mobile
 {
 	protected $provider;
@@ -23,5 +25,14 @@ class Mobile
 		$this->provider->dialContact($contact);
 
 		return $this->provider->makeCall();
+	}
+
+	public function sendSms(string $phone, string $body)
+	{
+		if (!ContactService::validateNumber($phone)) {
+			throw new Exception('Invalid phone number');
+		}
+
+		return $this->provider->sendSms($phone, $body);
 	}
 }

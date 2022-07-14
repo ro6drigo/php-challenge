@@ -31,6 +31,8 @@ class ContactService implements ContactServiceInterface
 	public static function validateNumber(string $number): bool
 	{
 		// logic to validate numbers
-		return true;
+		$key = array_search($number, array_column(self::CONTACTS, 'phone'));
+
+		return $key === false ?  false : true;
 	}
 }
